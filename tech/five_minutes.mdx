@@ -1,18 +1,17 @@
 ---
-title: 'Infactory in Five Minutes'
-description: 'Developer Tools to Extract Information From Your Data'
+title: 'Datalines in Five Minutes'
+description: 'A Developer Platform to Transform First-Party Data into Trusted AI Applications'
 ---
 
 ## Concept
 
-So far in the evolution of AI application development, it's been difficult to build software that dependably and deterministically allows you to ask questions to extract information from your data.
+So far in the evolution of AI application development, it's been difficult to build software that dependably and deterministically allows your users  to ask questions about a complex dataset and get reliable answers.  
+Infactory makes this easy, with tools to deliver **natural language in and structured data out**. Our approach enables you to build AI features that provide what your users want: trustworthy insights, drawn directly from your data.
 
-Infactory makes this easy, with tools to deliver **natural language in and structured data out**.
-
-Here's how Infactory technology works.
+Here's how it works.
 
 ### Infactory always starts with your data 
-Infactory doesn't scrape the web. Dependable and deterministic answers are rooted in known data. Data you have direct access to. Data you're interested in asking questions about. Data you want to use with Infactory technology.
+Infactory doesn't scrape the web. Dependable and deterministic answers are rooted in known data. Data you have direct access to. Data you're interested in asking questions about. Data too complex for existing AI tools to handle. This is the data Infactory was built to unlock.
 
 Let's use this CSV file as an example.
 <Accordion title="Example CSV">
@@ -51,9 +50,10 @@ id,pickup_datetime,dropoff_datetime,trip_duration,passenger_count,trip_distance_
 
 ### Datalines model your data
 
-**Datalines** are exclusive to Infactory. They place a semantic layer on top of your data, providing consistent naming, data types, structure, and interconnections.
+**Datalines** are exclusive to Infactory. They place a semantic layer on top of your data, providing consistent naming, data types, structure, and interconnections. Datalines deliver consistent AI results without significant engineering overhead.
 
-Infactory offers a `generate-dataline` tool to auto-create a Dataline from your data. This always gives you a solid head start, and you can use that Dataline as is. You also can customize the Dataline as you see fit, using the documentated API.
+Get started instantly with Infactory’s `generate-dataline` tool—it automatically creates a production-ready Dataline from your data. You also can also easily customize your Dataline through our documented API.
+
 
 <Accordion title="Example Dataline">
 #### Dataline generated from the CSV file
@@ -190,7 +190,8 @@ class NYCTaxiRidesSchemaT(SchemaT):
 
 ### Ask questions!
 
-Just like that, once you have a Dataline, you're ready to ask questions and extract information information from your data. Infactory offers the `ask` tool that uses the Dataline to understand your question, your data, and then returns a structured data response with the information needed to answer the question.
+Just like that, once you have a Dataline, you're ready to ask questions and extract information from your data. Infactory offers the `ask` tool that uses the Dataline to understand your question, your data, and then returns a structured data response with the information needed to answer the question. This bridges the gap between natural language queries and dependable AI outputs±exactly what users expect from modern applications.
+
 <Accordion title="Example ask tool output">
 The `ask` tool response in answer to the question:
 
@@ -237,12 +238,13 @@ The `ask` tool response in answer to the question:
 </CodeGroup>
 </Accordion>
 
-### Query Programs are the differentiator
-The `ask` tool in the previous step builds a **Query Program** based on your question, which then runs and returns a structured data response.
+### Dataline Query Programs are the differentiator
+The `ask` tool in the previous step builds a **Dataline Query Program** based on your question, which then runs and returns a structured data response.
 
-Query Programs are deterministic and repeatable. The structured data returned is always the same as long as the Query Program is the same and the data remains the same—a crucial characteristic not available in other AI systems and approaches.
-<Accordion title="Example Query Program">
-The `ask` tool Query Program that answered the question in the previous step:
+Dataline Query Programs are deterministic and repeatable. The structured data returned is always the same as long as the program is the same and the data remains the same. This approach is different from other AI systems and is crucial for building trustworthy AI applications that meet business and compliance requirements.
+
+<Accordion title="Example Dataline Query Program">
+The `ask` tool Dataline Query Program that answered the question in the previous step:
 
 **Q: What is the average tip for rides with 1, 2, and 3 passengers?**
 <CodeGroup>
@@ -265,8 +267,8 @@ result = q.run()
 </Accordion>
 
 
-### Infactory Datalines and Query Programs 
-Infactory Datalines and Query Programs provide the tools and techniques to model your data, ask questions about it, and produce structured data responses that can be used to power chatbots, dashboards, report generators, and more.
+### Infactory Datalines 
+Infactory Datalines and their Query Programs provide the tools and techniques to model your data, ask questions about it, and produce structured data responses that can be used to power chatbots, dashboards, report generators, and more.
 
 What's next? 
 
@@ -280,7 +282,7 @@ What's next?
   icon="play"
   href="./"
 >
-  A playground for experimenting with Datalines and Query Programs.
+  A playground for experimenting with Datalines.
 </Card>
 
 <Card
@@ -298,7 +300,7 @@ What's next?
   icon="gear"
   href="./"
 >
-  Many more tools available which address the entire developer process.
+  Many more tools and endpoints are available which address the process of developing with Datalines.
 </Card>
 
 <Card
@@ -306,7 +308,7 @@ What's next?
   icon="book"
   href="./"
 >
-  Documentation about Datalines and Query Programs to help you customize every step of the experience using Infactory technology. 
+  Documentation about Datalines and Query Programs to help you customize every step of using Infactory technology. 
 </Card>
 
 </CardGroup>
