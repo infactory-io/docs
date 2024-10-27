@@ -32,11 +32,6 @@
     }
   ],
   "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    }
   ],
   "navigation": [
     {
@@ -78,6 +73,12 @@
         "api-reference/v0/dataline-post",
         "api-reference/v0/dataline-get",
         "api-reference/v0/manifest"
+      ]
+    },
+    {
+      "group": "Infactory Technology",
+      "pages": [
+        "tech/five_minutes"
       ]
     }
   ],

@@ -1,0 +1,313 @@
+---
+title: 'Infactory in Five Minutes'
+description: 'Developer Tools to Extract Information From Your Data'
+---
+
+## Concept
+
+So far in the evolution of AI application development, it's been difficult to build software that dependably and deterministically allows you to ask questions to extract information from your data.
+
+Infactory makes this easy, with tools to deliver **natural language in and structured data out**.
+
+Here's how Infactory technology works.
+
+### Infactory always starts with your data 
+Infactory doesn't scrape the web. Dependable and deterministic answers are rooted in known data. Data you have direct access to. Data you're interested in asking questions about. Data you want to use with Infactory technology.
+
+Let's use this CSV file as an example.
+<Accordion title="Example CSV">
+#### A CSV file
+
+A 12MB CSV file containing over 150k rows about taxi rides in New York City for the three-day period from Jan 1, 2020 to Jan 3, 2020: `nyc_taxi_rides.csv`
+
+<CodeGroup>
+```bash csv
+id,pickup_datetime,dropoff_datetime,trip_duration,passenger_count,trip_distance_in_miles,payment_type,base_fare,taxes,tip,tolls,total_fare
+1,2020-01-01 0:00,2020-01-01 0:13,13m 3s,1,2.2,cash,10.5,3.8,2.85,0,17.15
+2,2020-01-01 0:00,2020-01-01 0:13,13m 1s,2,3,cash,11.5,3.8,2,0,17.3
+3,2020-01-01 0:00,2020-01-01 0:26,26m 25s,0,3.4,cash,18,3.8,4.35,0,26.15
+4,2020-01-01 0:00,2020-01-01 0:03,3m 19s,3,0.6,credit,4.5,1.3,0,0,5.8
+5,2020-01-01 0:00,2020-01-01 0:05,5m 34s,1,1.7,credit,7,1.3,0,0,8.3
+6,2020-01-01 0:00,2020-01-01 0:08,8m 5s,4,1.1,cash,7,3.8,20,0,30.8
+7,2020-01-01 0:00,2020-01-01 0:16,15m 42s,0,2.2,cash,11.5,3.8,3.8,0,19.1
+8,2020-01-01 0:00,2020-01-01 0:24,23m 38s,2,11.7,credit,33.5,1.3,0,0,34.8
+9,2020-01-01 0:00,2020-01-01 0:39,39m 3s,1,9.9,cash,36.5,3.8,8.05,0,48.35
+10,2020-01-01 0:00,2020-01-01 0:02,1m 42s,2,0.3,credit,3.5,3.8,0,0,7.3
+...
+158745,2020-01-03 23:59,2020-01-04 0:03,4m 11s,1,0.8,cash,5,3.8,1,0,9.8
+158746,2020-01-03 23:59,2020-01-04 0:05,6m 5s,1,1.3,credit,6,1.3,0,0,7.3
+158747,2020-01-03 23:59,2020-01-04 0:13,14m 6s,1,2.9,cash,12,3.8,2,0,17.8
+158748,2020-01-03 23:59,2020-01-04 0:05,5m 45s,2,1.4,cash,6.5,3.8,1,0,11.3
+158749,2020-01-03 23:59,2020-01-04 0:03,3m 48s,1,0.8,cash,5,3.8,2,0,10.8
+158750,2020-01-03 23:59,2020-01-04 0:18,18m 54s,1,5.2,credit,18,3.8,0,0,21.8
+158751,2020-01-03 23:59,2020-01-04 0:29,29m 50s,1,17.8,credit,48,1.3,0,0,49.3
+158752,2020-01-03 23:59,2020-01-04 0:04,4m 58s,2,1.1,cash,6.5,3.8,2.05,0,12.35
+158753,2020-01-03 23:59,2020-01-04 0:12,12m 12s,1,3.2,cash,12.5,3.8,4.05,0,20.35
+158754,2020-01-03 23:59,2020-01-04 0:04,4m 32s,1,0.7,cash,5,3.8,1.75,0,10.55
+```
+</CodeGroup>
+</Accordion>
+
+
+### Datalines model your data
+
+**Datalines** are exclusive to Infactory. They place a semantic layer on top of your data, providing consistent naming, data types, structure, and interconnections.
+
+Infactory offers a `generate-dataline` tool to auto-create a Dataline from your data. This always gives you a solid head start, and you can use that Dataline as is. You also can customize the Dataline as you see fit, using the documentated API.
+
+<Accordion title="Example Dataline">
+#### Dataline generated from the CSV file
+
+Created from the `nyc_taxi_rides.csv` file using the `generate-dataline` tool.
+
+<CodeGroup>
+```bash python
+#
+# Generated dataline from file: nyc_taxi_rides.csv
+#
+
+from infactory import Column, ColumnT, GeneralColumnT, NameT, Schema, SchemaT, NameT, RoleT, Role, TypeT
+
+class NYCTaxiRidesColumnT(ColumnT):
+    # Use GeneralColumnT.ID
+    PICKUP_DATETIME = Column(
+        type_t=TypeT.DATETIME,
+        names=(
+            (NameT.CANONICAL, "Pickup Datetime"),
+            (NameT.DATA_KEY, "pickup_datetime")
+        )
+    ).with_output_formatter(GeneralColumnT.DATETIME_FORMATTER)
+
+    DROPOFF_DATETIME = Column(
+        type_t=TypeT.DATETIME,
+        names=(
+            (NameT.CANONICAL, "Dropoff Datetime"),
+            (NameT.DATA_KEY, "dropoff_datetime")
+        )
+    ).with_output_formatter(GeneralColumnT.DATETIME_FORMATTER)
+
+    TRIP_DURATION = Column(
+        type_t=TypeT.DURATION,
+        names=(
+            (NameT.CANONICAL, "Trip Duration"),
+            (NameT.DATA_KEY, "trip_duration")
+        )
+    ).with_output_formatter(GeneralColumnT.DURATION_FORMATTER)
+
+    PASSENGER_COUNT = Column(
+        type_t=TypeT.ORDINAL,
+        names=(
+            (NameT.CANONICAL, "Passenger Count"),
+            (NameT.DATA_KEY, "passenger_count")
+        )
+    )
+
+    TRIP_DISTANCE_IN_MILES = Column(
+        type_t=TypeT.NUMBER,
+        names=(
+            (NameT.CANONICAL, "Trip Distance in Miles"),
+            (NameT.DATA_KEY, "trip_distance_in_miles")
+        )
+    )
+
+    PAYMENT_TYPE = Column(
+        type_t=TypeT.STRING,
+        names=(
+            (NameT.CANONICAL, "Payment Type"),
+            (NameT.DATA_KEY, "payment_type")
+        )
+    )
+
+    BASE_FARE = Column(
+        type_t=TypeT.NUMBER,
+        names=(
+            (NameT.CANONICAL, "Base Fare"),
+            (NameT.DATA_KEY, "base_fare")
+        )
+    )
+
+    TAXES = Column(
+        type_t=TypeT.NUMBER,
+        names=(
+            (NameT.CANONICAL, "Taxes"),
+            (NameT.DATA_KEY, "taxes")
+        )
+    )
+
+    TIP = Column(
+        type_t=TypeT.NUMBER,
+        names=(
+            (NameT.CANONICAL, "Tip"),
+            (NameT.DATA_KEY, "tip")
+        )
+    )
+
+    TOLLS = Column(
+        type_t=TypeT.NUMBER,
+        names=(
+            (NameT.CANONICAL, "Tolls"),
+            (NameT.DATA_KEY, "tolls")
+        )
+    )
+
+    TOTAL_FARE = Column(
+        type_t=TypeT.NUMBER,
+        names=(
+            (NameT.CANONICAL, "Total Fare"),
+            (NameT.DATA_KEY, "total_fare")
+        )
+    )
+
+
+class NYCTaxiRidesSchemaT(SchemaT):
+    NYC_TAXI_RIDES = Schema(
+        col_ts=(
+            GeneralColumnT.MKEY,
+            GeneralColumnT.CANONICAL_NAME,
+            GeneralColumnT.ID,
+            NYCTaxiRidesColumnT.PICKUP_DATETIME,
+            NYCTaxiRidesColumnT.DROPOFF_DATETIME,
+            NYCTaxiRidesColumnT.TRIP_DURATION,
+            NYCTaxiRidesColumnT.PASSENGER_COUNT,
+            NYCTaxiRidesColumnT.TRIP_DISTANCE_IN_MILES,
+            NYCTaxiRidesColumnT.PAYMENT_TYPE,
+            NYCTaxiRidesColumnT.BASE_FARE,
+            NYCTaxiRidesColumnT.TAXES,
+            NYCTaxiRidesColumnT.TIP,
+            NYCTaxiRidesColumnT.TOLLS,
+            NYCTaxiRidesColumnT.TOTAL_FARE,
+        ),
+        key_col_t=GeneralColumnT.ID,
+        canonical_name_col_t=NYCTaxiRidesColumnT.PICKUP_DATETIME,
+        hidden_col_ts=(GeneralColumnT.MKEY,),
+        names=(NameT.CANONICAL, "NYC Taxi Rides",)
+    )
+```
+</CodeGroup>
+</Accordion>
+
+
+
+### Ask questions!
+
+Just like that, once you have a Dataline, you're ready to ask questions and extract information information from your data. Infactory offers the `ask` tool that uses the Dataline to understand your question, your data, and then returns a structured data response with the information needed to answer the question.
+<Accordion title="Example ask tool output">
+The `ask` tool response in answer to the question:
+
+**Q: What is the average tip for rides with 1, 2, and 3 passengers?**
+<CodeGroup>
+```bash json
+{
+  "i7y:result_t/main": {
+    "table": {
+      "schema_t": "i7y:schema_t/custom",
+      "schema": {
+        "names": [
+          {
+            "name_t": "i7y:name_t/canonical",
+            "text": "result"
+          }
+        ],
+        "col_ts": [
+          "i7y:column_t/nyc_taxi_rides/passenger_count",
+          "i7y:column_t/nyc_taxi_rides/tip/x-average"
+        ],
+        "key_col_t": "i7y:column_t/nyc_taxi_rides/passenger_count",
+        "canonical_name_col_t": "i7y:column_t/nyc_taxi_rides/passenger_count",
+        "hidden_col_ts": []
+      },
+      "rows": [
+        {
+          "i7y:column_t/nyc_taxi_rides/passenger_count": 1,
+          "i7y:column_t/nyc_taxi_rides/tip/x-average": 1.9346637457271818
+        },
+        {
+          "i7y:column_t/nyc_taxi_rides/passenger_count": 2,
+          "i7y:column_t/nyc_taxi_rides/tip/x-average": 2.145555481771698
+        },
+        {
+          "i7y:column_t/nyc_taxi_rides/passenger_count": 3,
+          "i7y:column_t/nyc_taxi_rides/tip/x-average": 1.9998110862540392
+        }
+      ]
+    }
+  }
+}
+```   
+</CodeGroup>
+</Accordion>
+
+### Query Programs are the differentiator
+The `ask` tool in the previous step builds a **Query Program** based on your question, which then runs and returns a structured data response.
+
+Query Programs are deterministic and repeatable. The structured data returned is always the same as long as the Query Program is the same and the data remains the same—a crucial characteristic not available in other AI systems and approaches.
+<Accordion title="Example Query Program">
+The `ask` tool Query Program that answered the question in the previous step:
+
+**Q: What is the average tip for rides with 1, 2, and 3 passengers?**
+<CodeGroup>
+```bash python
+from infactory import *
+from taxi.nyc_taxi_rides.nyc_taxi_rides_dataline import *
+
+# Q: What is the average tip for rides with 1, 2, and 3 passengers?
+NC = NYCTaxiRidesColumnT
+q = (QueryProgram()
+    | PushWorkspace('taxi')
+    | PushDataFrame(NYCTaxiRidesSchemaT.NYC_TAXI_RIDES)
+    | Filter(Expr(NC.PASSENGER_COUNT, ExprT.GTE, 1) & Expr(NC.PASSENGER_COUNT, ExprT.LTE, 3))
+    | Agg(AggT.MEAN, NC.TIP) // NC.PASSENGER_COUNT
+    | Result(ResultT.MAIN)
+)
+result = q.run() 
+```   
+</CodeGroup>
+</Accordion>
+
+
+### Infactory Datalines and Query Programs 
+Infactory Datalines and Query Programs provide the tools and techniques to model your data, ask questions about it, and produce structured data responses that can be used to power chatbots, dashboards, report generators, and more.
+
+What's next? 
+
+## Learning More
+
+<sup>(buttons not connected yet)</sup>
+
+<CardGroup cols={2}>
+<Card
+  title="Playground"
+  icon="play"
+  href="./"
+>
+  A playground for experimenting with Datalines and Query Programs.
+</Card>
+
+<Card
+  title="Python Package"
+  icon="binary"
+  href="./"
+>
+  A python package for building your own programs that access Infactory technology.
+</Card>
+</CardGroup>
+
+<CardGroup cols={2}>
+<Card
+  title="Infactory API"
+  icon="gear"
+  href="./"
+>
+  Many more tools available which address the entire developer process.
+</Card>
+
+<Card
+  title="Documentation"
+  icon="book"
+  href="./"
+>
+  Documentation about Datalines and Query Programs to help you customize every step of the experience using Infactory technology. 
+</Card>
+
+</CardGroup>
+
